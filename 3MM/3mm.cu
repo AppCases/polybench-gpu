@@ -15,7 +15,7 @@
 #include <sys/time.h>
 #include <cuda.h>
 
-#include "../../common/polybenchUtilFuncts.h"
+#include "../common/polybenchUtilFuncts.h"
 
 #define GPU_DEVICE 0
 
