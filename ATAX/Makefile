@@ -1,4 +1,4 @@
 EXECUTABLE := atax.exe
 CUFILES := atax.cu
 
-include ../common.mk
+include ../common/common.mk
