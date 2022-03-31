@@ -16,7 +16,7 @@
 #include <string.h>
 #include <cuda.h>
 
-#include "../../common/polybenchUtilFuncts.h"
+#include "../common/polybenchUtilFuncts.h"
 
 //define the error threshold for the results "not matching"
 #define PERCENT_DIFF_ERROR_THRESHOLD 0.05
