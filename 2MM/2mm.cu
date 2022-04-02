@@ -180,14 +180,10 @@ void mm2Cuda(DATA_TYPE* A, DATA_TYPE* B, DATA_TYPE* C, DATA_TYPE* D, DATA_TYPE* 
 	cudaMalloc((void **)&A_gpu, sizeof(DATA_TYPE) * NI * NK);
 	cudaMalloc((void **)&B_gpu, sizeof(DATA_TYPE) * NK * NJ);
 	cudaMalloc((void **)&C_gpu, sizeof(DATA_TYPE) * NI * NJ);
-	cudaMalloc((void **)&D_gpu, sizeof(DATA_TYPE) * NJ * NL);
-	cudaMalloc((void **)&E_gpu, sizeof(DATA_TYPE) * NI * NL);
 	
 	cudaMemcpy(A_gpu, A, sizeof(DATA_TYPE) * NI * NK, cudaMemcpyHostToDevice);
 	cudaMemcpy(B_gpu, B, sizeof(DATA_TYPE) * NK * NJ, cudaMemcpyHostToDevice);
 	cudaMemcpy(C_gpu, C, sizeof(DATA_TYPE) * NK * NJ, cudaMemcpyHostToDevice);
-	cudaMemcpy(D_gpu, D, sizeof(DATA_TYPE) * NJ * NL, cudaMemcpyHostToDevice);
-	cudaMemcpy(E_gpu, E, sizeof(DATA_TYPE) * NI * NL, cudaMemcpyHostToDevice);	
 		
 	dim3 block(DIM_THREAD_BLOCK_X, DIM_THREAD_BLOCK_Y);
 	dim3 grid1((size_t)ceil( ((float)NJ) / ((float)block.x) ), (size_t)ceil( ((float)NI) / ((float)block.y)) );
@@ -195,6 +191,15 @@ void mm2Cuda(DATA_TYPE* A, DATA_TYPE* B, DATA_TYPE* C, DATA_TYPE* D, DATA_TYPE* 
 	t_start = rtclock();
 	mm2_kernel1<<<grid1,block>>>(A_gpu, B_gpu, C_gpu);
 	cudaThreadSynchronize();
+	cudaFree(A_gpu);
+	cudaFree(B_gpu);
+
+	cudaMalloc((void **)&D_gpu, sizeof(DATA_TYPE) * NJ * NL);
+	cudaMalloc((void **)&E_gpu, sizeof(DATA_TYPE) * NI * NL);
+
+	cudaMemcpy(D_gpu, D, sizeof(DATA_TYPE) * NJ * NL, cudaMemcpyHostToDevice);
+	cudaMemcpy(E_gpu, E, sizeof(DATA_TYPE) * NI * NL, cudaMemcpyHostToDevice);	
+
 	mm2_kernel2<<<grid2,block>>>(C_gpu, D_gpu, E_gpu);
 	cudaThreadSynchronize();
 	t_end = rtclock();
@@ -202,8 +207,6 @@ void mm2Cuda(DATA_TYPE* A, DATA_TYPE* B, DATA_TYPE* C, DATA_TYPE* D, DATA_TYPE* 
 
 	cudaMemcpy(E_outputFromGpu, E_gpu, sizeof(DATA_TYPE) * NI * NL, cudaMemcpyDeviceToHost);
 
-	cudaFree(A_gpu);
-	cudaFree(B_gpu);
 	cudaFree(C_gpu);
 	cudaFree(D_gpu);
 	cudaFree(E_gpu);
