@@ -211,47 +211,60 @@ void mm3Cuda(DATA_TYPE* A, DATA_TYPE* B, DATA_TYPE* C, DATA_TYPE* D, DATA_TYPE* 
 	DATA_TYPE *E_gpu;
 	DATA_TYPE *F_gpu;
 	DATA_TYPE *G_gpu;
-
-	cudaMalloc((void **)&A_gpu, sizeof(DATA_TYPE) * NI * NK);
-	cudaMalloc((void **)&B_gpu, sizeof(DATA_TYPE) * NK * NJ);
-	cudaMalloc((void **)&C_gpu, sizeof(DATA_TYPE) * NJ * NM);
-	cudaMalloc((void **)&D_gpu, sizeof(DATA_TYPE) * NM * NL);
-	cudaMalloc((void **)&E_gpu, sizeof(DATA_TYPE) * NI * NJ);
-	cudaMalloc((void **)&F_gpu, sizeof(DATA_TYPE) * NJ * NL);
-	cudaMalloc((void **)&G_gpu, sizeof(DATA_TYPE) * NI * NL);
-
-	cudaMemcpy(A_gpu, A, sizeof(DATA_TYPE) * NI * NK, cudaMemcpyHostToDevice);
-	cudaMemcpy(B_gpu, B, sizeof(DATA_TYPE) * NK * NJ, cudaMemcpyHostToDevice);
-	cudaMemcpy(C_gpu, C, sizeof(DATA_TYPE) * NJ * NM, cudaMemcpyHostToDevice);
-	cudaMemcpy(D_gpu, D, sizeof(DATA_TYPE) * NM * NL, cudaMemcpyHostToDevice);
-	cudaMemcpy(E_gpu, E, sizeof(DATA_TYPE) * NI * NJ, cudaMemcpyHostToDevice);
-	cudaMemcpy(F_gpu, F, sizeof(DATA_TYPE) * NJ * NL, cudaMemcpyHostToDevice);
-	cudaMemcpy(G_gpu, G, sizeof(DATA_TYPE) * NI * NL, cudaMemcpyHostToDevice);	
 	
 	dim3 block(DIM_THREAD_BLOCK_X, DIM_THREAD_BLOCK_Y);
 	dim3 grid1((size_t)(ceil( ((float)NJ) / ((float)DIM_THREAD_BLOCK_X) )),(size_t)(ceil((float)NI/ ((float)DIM_THREAD_BLOCK_Y) )));
 	dim3 grid2((size_t)(ceil( ((float)NL) / ((float)DIM_THREAD_BLOCK_X) )),(size_t)(ceil((float)NJ/ ((float)DIM_THREAD_BLOCK_Y) )));
 	dim3 grid3((size_t)(ceil( ((float)NL) / ((float)DIM_THREAD_BLOCK_X) )),(size_t)(ceil((float)NI/ ((float)DIM_THREAD_BLOCK_Y) )));
 
-	t_start = rtclock();
+	cudaMalloc((void **)&A_gpu, sizeof(DATA_TYPE) * NI * NK);
+	cudaMalloc((void **)&B_gpu, sizeof(DATA_TYPE) * NK * NJ);
+	cudaMalloc((void **)&E_gpu, sizeof(DATA_TYPE) * NI * NJ);
+	cudaMemcpy(A_gpu, A, sizeof(DATA_TYPE) * NI * NK, cudaMemcpyHostToDevice);
+	cudaMemcpy(B_gpu, B, sizeof(DATA_TYPE) * NK * NJ, cudaMemcpyHostToDevice);
+	cudaMemcpy(E_gpu, E, sizeof(DATA_TYPE) * NI * NJ, cudaMemcpyHostToDevice);
+
+	// t_start = rtclock();
 	mm3_kernel1<<<grid1,block>>>(A_gpu, B_gpu, E_gpu);
 	cudaThreadSynchronize();
-	mm3_kernel2<<<grid2,block>>>(C_gpu, D_gpu, F_gpu);
-	cudaThreadSynchronize();
-	mm3_kernel3<<<grid3,block>>>(E_gpu, F_gpu, G_gpu);
-	cudaThreadSynchronize();
-	t_end = rtclock();
-	cudaMemcpy(G_outputFromGpu, G_gpu, sizeof(DATA_TYPE) * NI * NL, cudaMemcpyDeviceToHost);
 
-	fprintf(stdout, "GPU Runtime: %0.6lfs\n", t_end - t_start);
-	
 	cudaFree(A_gpu);
 	cudaFree(B_gpu);
+	cudaMemcpy(E, E_gpu, sizeof(DATA_TYPE) * NI * NJ, cudaMemcpyDeviceToHost);
+	cudaFree(E_gpu);
+
+
+
+	cudaMalloc((void **)&C_gpu, sizeof(DATA_TYPE) * NJ * NM);
+	cudaMalloc((void **)&D_gpu, sizeof(DATA_TYPE) * NM * NL);
+	cudaMalloc((void **)&F_gpu, sizeof(DATA_TYPE) * NJ * NL);
+	cudaMemcpy(C_gpu, C, sizeof(DATA_TYPE) * NJ * NM, cudaMemcpyHostToDevice);
+	cudaMemcpy(D_gpu, D, sizeof(DATA_TYPE) * NM * NL, cudaMemcpyHostToDevice);
+	cudaMemcpy(F_gpu, F, sizeof(DATA_TYPE) * NJ * NL, cudaMemcpyHostToDevice);
+
+	mm3_kernel2<<<grid2,block>>>(C_gpu, D_gpu, F_gpu);
+	cudaThreadSynchronize();
+
 	cudaFree(C_gpu);
 	cudaFree(D_gpu);
+
+	cudaMalloc((void **)&G_gpu, sizeof(DATA_TYPE) * NI * NL);
+	cudaMemcpy(G_gpu, G, sizeof(DATA_TYPE) * NI * NL, cudaMemcpyHostToDevice);	
+
+	cudaMalloc((void **)&E_gpu, sizeof(DATA_TYPE) * NI * NJ);
+	cudaMemcpy(E_gpu, E, sizeof(DATA_TYPE) * NI * NJ, cudaMemcpyHostToDevice);
+
+	mm3_kernel3<<<grid3,block>>>(E_gpu, F_gpu, G_gpu);
+	cudaThreadSynchronize();
+	// t_end = rtclock();
+	cudaMemcpy(G_outputFromGpu, G_gpu, sizeof(DATA_TYPE) * NI * NL, cudaMemcpyDeviceToHost);
+
 	cudaFree(E_gpu);
 	cudaFree(F_gpu);
 	cudaFree(G_gpu);
+
+	fprintf(stdout, "GPU Runtime: %0.6lfs\n", t_end - t_start);
+	
 }
 
 
