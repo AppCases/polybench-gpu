@@ -128,7 +128,7 @@ __global__ void gramschmidt_kernel1(DATA_TYPE *a, DATA_TYPE *r, DATA_TYPE *q, in
 		{
 			nrm += a[i * N + k] * a[i * N + k];
 		}
-      		r[k * N + k] = sqrt(nrm);
+      		r[k] = sqrt(nrm);
 	}
 }
 
@@ -139,7 +139,7 @@ __global__ void gramschmidt_kernel2(DATA_TYPE *a, DATA_TYPE *r, DATA_TYPE *q, in
 	
 	if (i < M)
 	{	
-		q[i * N + k] = a[i * N + k] / r[k * N + k];
+		q[i * N + k] = a[i * N + k] / r[k];
 	}
 }
 
@@ -150,17 +150,17 @@ __global__ void gramschmidt_kernel3(DATA_TYPE *a, DATA_TYPE *r, DATA_TYPE *q, in
 
 	if ((j > k) && (j < N))
 	{
-		r[k*N + j] = 0.0;
+		r[j] = 0.0;
 
 		int i;
 		for (i = 0; i < M; i++)
 		{
-			r[k*N + j] += q[i*N + k] * a[i*N + j];
+			r[j] += q[i*N + k] * a[i*N + j];
 		}
 		
 		for (i = 0; i < M; i++)
 		{
-			a[i*N + j] -= q[i*N + k] * r[k*N + j];
+			a[i*N + j] -= q[i*N + k] * r[j];
 		}
 	}
 }
@@ -180,7 +180,7 @@ void gramschmidtCuda(DATA_TYPE* A, DATA_TYPE* R, DATA_TYPE* Q, DATA_TYPE* A_outp
 	DATA_TYPE *Q_gpu;
 
 	cudaMalloc((void **)&A_gpu, sizeof(DATA_TYPE) * M * N);
-	cudaMalloc((void **)&R_gpu, sizeof(DATA_TYPE) * M * N);
+	cudaMalloc((void **)&R_gpu, sizeof(DATA_TYPE) * N);
 	cudaMalloc((void **)&Q_gpu, sizeof(DATA_TYPE) * M * N);
 	cudaMemcpy(A_gpu, A, sizeof(DATA_TYPE) * M * N, cudaMemcpyHostToDevice);
 	
