@@ -147,20 +147,21 @@ __global__ void gramschmidt_kernel2(DATA_TYPE *a, DATA_TYPE *r, DATA_TYPE *q, in
 __global__ void gramschmidt_kernel3(DATA_TYPE *a, DATA_TYPE *r, DATA_TYPE *q, int k)
 {
 	int j = blockIdx.x * blockDim.x + threadIdx.x;
+	__shared__ DATA_TYPE r_s[N];
 
 	if ((j > k) && (j < N))
 	{
-		r[k*N + j] = 0.0;
+		r_s[j] = 0.0;
 
 		int i;
 		for (i = 0; i < M; i++)
 		{
-			r[k*N + j] += q[i*N + k] * a[i*N + j];
+			r_s[j] += q[i*N + k] * a[i*N + j];
 		}
 		
 		for (i = 0; i < M; i++)
 		{
-			a[i*N + j] -= q[i*N + k] * r[k*N + j];
+			a[i*N + j] -= q[i*N + k] * r_s[j];
 		}
 	}
 }
