@@ -99,16 +99,18 @@ void GPU_argv_init()
 __global__ void bicg_kernel1(DATA_TYPE *A, DATA_TYPE *r, DATA_TYPE *s)
 {
 	int j = blockIdx.x * blockDim.x + threadIdx.x;
+	__shared__ DATA_TYPE s_s[NY];
 	
 	if (j < NY)
 	{
-		s[j] = 0.0f;
+		s_s[j] = 0.0f;
 
 		int i;
 		for(i = 0; i < NX; i++)
 		{
-			s[j] += A[i * NY + j] * r[i];
+			s_s[j] += A[i * NY + j] * r[i];
 		}
+		s[j] = s_s[j];
 	}	
 }
 
@@ -117,16 +119,18 @@ __global__ void bicg_kernel1(DATA_TYPE *A, DATA_TYPE *r, DATA_TYPE *s)
 __global__ void bicg_kernel2(DATA_TYPE *A, DATA_TYPE *p, DATA_TYPE *q)
 {
 	int i = blockIdx.x * blockDim.x + threadIdx.x;
+	__shared__ DATA_TYPE q_s[NX];
 	
 	if (i < NX)
 	{
-		q[i] = 0.0f;
+		q_s[i] = 0.0f;
 
 		int j;
 		for(j=0; j < NY; j++)
 		{
-			q[i] += A[i * NY + j] * p[j];
+			q_s[i] += A[i * NY + j] * p[j];
 		}
+		q[i] = q_s[i];
 	}
 }
 
