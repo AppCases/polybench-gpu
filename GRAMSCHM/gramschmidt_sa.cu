@@ -150,7 +150,7 @@ __global__ void gramschmidt_kernel3(DATA_TYPE *a, DATA_TYPE *r, DATA_TYPE *q, in
 
 	if ((j > k) && (j < N))
 	{
-		if (k > 1024) {
+		if (k > 1229) {
 			r[j] = 0.0;
 
 			int i;
