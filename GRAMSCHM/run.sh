@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # interations for each profiling
-iteration=1
+iteration=10
 # (seconds) interval between each profiling
-interval=1
+interval=5
 
 ############################## GRAMSCHM ##############################
 echo "############################## SA ##############################"
