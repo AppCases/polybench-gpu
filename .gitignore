@@ -1,0 +1,6 @@
+runhip/
+*.out
+
+# Temp Files
+*~
+#*#

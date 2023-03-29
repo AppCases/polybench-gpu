@@ -1,0 +1,15 @@
+./CUDA/2DCONV/2DConvolution.cu
+./CUDA/3DCONV/3DConvolution.cu
+./CUDA/2MM/2mm.cu
+./CUDA/3MM/3mm.cu
+./CUDA/ATAX/atax.cu
+./CUDA/BICG/bicg.cu
+./CUDA/GEMM/gemm.cu
+./CUDA/GESUMMV/gesummv.cu
+./CUDA/GRAMSCHM/gramschmidt.cu
+./CUDA/MVT/mvt.cu
+./CUDA/SYR2K/syr2k.cu
+./CUDA/SYRK/syrk.cu
+./CUDA/CORR/correlation.cu
+./CUDA/COVAR/covariance.cu
+./CUDA/FDTD-2D/fdtd2d.cu

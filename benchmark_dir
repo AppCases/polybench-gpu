@@ -1,0 +1,15 @@
+./hip/2DConvolution/2DConvolution.cpp
+./hip/3DConvolution/3DConvolution.cpp
+./hip/2mm/2mm.cpp
+./hip/3mm/3mm.cpp
+./hip/atax/atax.cpp
+./hip/bicg/bicg.cpp
+./hip/gemm/gemm.cpp
+./hip/gesummv/gesummv.cpp
+./hip/gramschmidt/gramschmidt.cpp
+./hip/mvt/mvt.cpp
+./hip/syr2k/syr2k.cpp
+./hip/syrk/syrk.cpp
+./hip/correlation/correlation.cpp
+./hip/covariance/covariance.cpp
+./hip/fdtd2d/fdtd2d.cpp

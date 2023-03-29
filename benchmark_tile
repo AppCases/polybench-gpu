@@ -1,0 +1,15 @@
+./runhip/2DConvolution/2DConvolution
+./runhip/3DConvolution/3DConvolution
+./runhip/2mm/2mm
+./runhip/3mm/3mm
+./runhip/atax/atax
+./runhip/bicg/bicg
+./runhip/gemm/gemm
+./runhip/gesummv/gesummv
+./runhip/gramschmidt/gramschmidt
+./runhip/mvt/mvt
+./runhip/syr2k/syr2k
+./runhip/syrk/syrk
+./runhip/correlation/correlation
+./runhip/covariance/covariance
+./runhip/fdtd2d/fdtd2d
