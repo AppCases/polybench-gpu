@@ -1,3 +1,4 @@
+CUDA/*/*.exe
 runhip/
 *.out
 

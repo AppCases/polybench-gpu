@@ -1,0 +1,15 @@
+./2DCONV/2DConvolution.exe
+./3DCONV/3DConvolution.exe
+./2MM/2mm.exe
+./3MM/3mm.exe
+./ATAX/atax.exe
+./BICG/bicg.exe
+./GEMM/gemm.exe
+./GESUMMV/gesummv.exe
+./GRAMSCHM/gramschmidt.exe
+./MVT/mvt.exe
+./SYR2K/syr2k.exe
+./SYRK/syrk.exe
+./CORR/correlation.exe
+./COVAR/covariance.exe
+./FDTD-2D/fdtd2d.exe
