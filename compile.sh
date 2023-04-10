@@ -3,7 +3,7 @@ export base=`pwd`
 export result=$base/runhip
 count=0
 #读文件，结果写进b.out
-cat ./benchmark_list &>c.out                                                                                                
+cat ./benchmark_list &>c.out
 #把b.out内容写进数组arr
 mapfile arr<c.out
 echo "-----hipcc for each -----"
@@ -22,6 +22,6 @@ do
           mkdir $result/$new_name
                 fi
     hipcc -O3  $line &> $result/$new_name/${new_name}.out -o $result/$new_name/${new_name}
-    echo "------run done------${new_name}"
-    count=$[ $count+1]   
-done < ./benchmark_dir 
+    echo "------compile done------${new_name}"
+    count=$[ $count+1]
+done < ./benchmark_dir

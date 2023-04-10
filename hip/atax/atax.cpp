@@ -201,13 +201,13 @@ t_start = rtclock();
 	ataxGpu(A, x, y, tmp, y_outputFromGpu);
 t_end = rtclock();
       fprintf(stdout, "kernel Runtime: %0.6lfs\n", t_end - t_start);
-      	
-	//t_start = rtclock();
-//	atax_cpu(A, x, y, tmp);
-//	t_end = rtclock();
-//	fprintf(stdout, "CPU Runtime: %0.6lfs\n", t_end - t_start);
 
-//	compareResults(y, y_outputFromGpu);
+	t_start = rtclock();
+	atax_cpu(A, x, y, tmp);
+	t_end = rtclock();
+	fprintf(stdout, "CPU Runtime: %0.6lfs\n", t_end - t_start);
+
+	compareResults(y, y_outputFromGpu);
 
 	free(A);
 	free(x);

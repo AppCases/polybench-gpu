@@ -171,7 +171,7 @@ int main(int argc, char *argv[])
 t_start = rtclock();
 	convolution2DCuda(A, B, B_outputFromGpu);
 t_end = rtclock();
-        fprintf(stdout, " Runtime: %0.6lfs\n", t_end - t_start);//);	
+        fprintf(stdout, "kernel Runtime: %0.6lfs\n", t_end - t_start);
 	t_start = rtclock();
 	conv2D(A, B);
 	t_end = rtclock();

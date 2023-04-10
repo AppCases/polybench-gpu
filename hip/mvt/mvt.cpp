@@ -205,7 +205,7 @@ int main()
 t_start = rtclock();
 	mvtCuda(a, x1, x2, y_1, y_2, x1_outputFromGpu, x2_outputFromGpu);
 	t_end = rtclock();
-        fprintf(stdout, "CPU Runtime: %0.6lfs\n", t_end - t_start);
+        fprintf(stdout, "kernel Runtime: %0.6lfs\n", t_end - t_start);
 	t_start = rtclock();
 
 	//run the algorithm on the CPU

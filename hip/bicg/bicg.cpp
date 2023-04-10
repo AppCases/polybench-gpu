@@ -225,13 +225,13 @@ t_start = rtclock();
 	bicgCuda(A, r, s, p, q, s_outputFromGpu, q_outputFromGpu);
 t_end = rtclock();
 fprintf(stdout, "kernel Runtime: %0.6lfs\n", t_end - t_start);
-//	t_start = rtclock();
-//	bicg_cpu(A, r, s, p, q);
-//	t_end = rtclock();
+	t_start = rtclock();
+	bicg_cpu(A, r, s, p, q);
+	t_end = rtclock();
 
-//	fprintf(stdout, "CPU Runtime: %0.6lfs\n", t_end - t_start);
+	fprintf(stdout, "CPU Runtime: %0.6lfs\n", t_end - t_start);
 
-//	compareResults(s, s_outputFromGpu, q, q_outputFromGpu);
+	compareResults(s, s_outputFromGpu, q, q_outputFromGpu);
 
 	free(A);
 	free(r);
