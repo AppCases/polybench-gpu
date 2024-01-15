@@ -1,4 +1,4 @@
-NVCC_FLAGS := -g -lineinfo
+NVCC_FLAGS := -g -lineinfo --cudart shared
 
 all:
 	nvcc -O3 ${CUFILES} -o ${EXECUTABLE} ${NVCC_FLAGS}
