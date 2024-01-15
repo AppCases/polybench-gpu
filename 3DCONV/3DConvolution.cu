@@ -24,9 +24,9 @@
 #define GPU_DEVICE 0
 
 /* Problem size */
-#define NI 256
-#define NJ 256
-#define NK 256
+#define NI 256>>1
+#define NJ 256>>1
+#define NK 256>>1
 
 /* Thread block dimensions */
 #define DIM_THREAD_BLOCK_X 32

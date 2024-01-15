@@ -23,9 +23,9 @@
 #define GPU_DEVICE 0
 
 /* Problem size */
-#define tmax 500
-#define NX 2048
-#define NY 2048
+#define tmax 10
+#define NX 2048>>1
+#define NY 2048>>1
 
 /* Thread block dimensions */
 #define DIM_THREAD_BLOCK_X 32

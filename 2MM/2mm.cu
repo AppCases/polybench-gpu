@@ -23,10 +23,10 @@
 #define GPU_DEVICE 0
 
 /* Problem size. */
-# define NI 2048
-# define NJ 2048
-# define NK 2048
-# define NL 2048
+# define NI 2048>>2
+# define NJ 2048>>2
+# define NK 2048>>2
+# define NL 2048>>2
 
 /* Thread block dimensions */
 #define DIM_THREAD_BLOCK_X 32

@@ -23,11 +23,11 @@
 #define PERCENT_DIFF_ERROR_THRESHOLD 0.05
 
 /* Problem size. */
-# define NI 512
-# define NJ 512
-# define NK 512
-# define NL 512
-# define NM 512
+# define NI 512>>1
+# define NJ 512>>1
+# define NK 512>>1
+# define NL 512>>1
+# define NM 512>>1
 
 /* Thread block dimensions */
 #define DIM_THREAD_BLOCK_X 32
